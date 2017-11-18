@@ -54,7 +54,7 @@ function [ ret ] = QualityControl( K_otw , T )
     ret.wsk_nadaz = WskNadaz(K_zamk);
     
     %wskazniki pierwiastkowe
-    [st_stab, st_osc] = WskPierwiastkowe(rlocus(K_zamk, 1)); %TODO: tu ma byc zamkniety ??
+    [st_stab, st_osc] = WskPierwiastkowe(rlocus(K_otw, 1));
     ret.st_stab = st_stab;
     ret.st_osc = st_osc;
     
