@@ -1,7 +1,16 @@
-function [ st_ust ] = StanUst( Y )
-% Y - wektor odpowiedzi (musi sie ustalac) ( moze byc ze stepa)
-    
+function [ st_ust ] = StanUst( K )
+% K - transmitancja
     %dlugosc wektora
+    
+    [Y,T] = step(K);
+    
+    len = size(Y);
+    len = len(1);
+    
+    Tend = 2*T; % w normalnym stepie wartosc sie nie ustala 4some reason
+    
+    Y = step(K, Tend);
+    
     len = size(Y);
     len = len(1);
     

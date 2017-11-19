@@ -1,24 +1,12 @@
-function [ k ] = KGraniczne( K, k_range )
+function [ k ] = KGraniczne( K, epsilon )
 % K-transmitancja
-% k_range - [opcjonalny] wektor wartosci k do sprawdzenia (mozna dac
-%   dokladniejszy)
-
-    if (~exist('k_range', 'var'))
-        [R,k_w] = rlocus(K);
+% epsilon - [opcjonalny] dokladnosc wzmocnienia 
+    if (~exist('epsilon', 'var'))
+        k = ZadanyStab(K, 0);
     else
-        [R,k_w] = rlocus(K,k_range);
+        k = ZadanyStab(K, 0, epsilon);
     end
-
-
-    i = 1;
-    while true
-        
-        if max(real(R(:,i))) > 0 % szukamy styku dowolnego pierwiastka z osia oY
-            k = k_w(i);
-            break
-        end
-        i = i+1;
-    end
-
+  
+    
 end
 

@@ -1,12 +1,9 @@
-function [ ret ] = QualityControl( K_otw , T )
+function [ ret ] = QualityControl( K_otw )
 %QualityControl liczy wskazniki jakosci dla
 %  Input args:
 %    K_otw - transmitancja uk³adu otwartego
-%    T - wektor czasu do sprawdzenia (opcjonalny)
 %  Returns:
-%    st_ust - stan ustalony
-%    e_ust - uchyb w stanie ustalonym
-%    K_zamk - transmitancja ukl zamk po ujemn sprzez zwrot
+%    ret - struktura z danymi
 
 
 
@@ -14,22 +11,15 @@ function [ ret ] = QualityControl( K_otw , T )
     K_zamk = K_otw/(1+K_otw);
     ret.K_zamk = K_zamk;
 
-    %wektor odpowiedzi dla dalszych obliczen
-    if (~exist('T', 'var'))
-        [Y,T] = step(K_zamk);
-    else
-        [Y,T] = step(K_zamk,T);
-    end
-
     
     %stan ustalony
-    ret.st_ust = StanUst(Y);
+    ret.st_ust = StanUst(K_zamk);
     
     %uchyb ust
-    ret.e_ust = UchybUst(Y, 1);
+    ret.e_ust = UchybUst(K_zamk, 1);
     
     %czas opoznienia 
-    ret.t_opozn = CzasOpozn(Y,T);
+    ret.t_opozn = CzasOpozn(K_zamk);
     
     
     si = stepinfo(K_zamk);
@@ -54,7 +44,7 @@ function [ ret ] = QualityControl( K_otw , T )
     ret.wsk_nadaz = WskNadaz(K_zamk);
     
     %wskazniki pierwiastkowe
-    [st_stab, st_osc] = WskPierwiastkowe(rlocus(K_otw, 1));
+    [st_stab, st_osc] = WskPierwiastkowe(K_otw);
     ret.st_stab = st_stab;
     ret.st_osc = st_osc;
     
